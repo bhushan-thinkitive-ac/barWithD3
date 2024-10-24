@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import './style.css'
 const CommonSVG = () => {
@@ -29,7 +29,7 @@ const CommonSVG = () => {
             { month: "Dec", patients: 700, devices: 900 },
         ];
 
-        const margin = { top: 90, right: 10, bottom: 70, left: 60 };
+        const margin = { top: 90, right: 30, bottom: 70, left: 60 };
         const width = 1300 - margin.left - margin.right;
         const height = 500 - margin.top - margin.bottom;
 
@@ -55,21 +55,22 @@ const CommonSVG = () => {
             .scaleLinear()
             .domain([0, 900])
             .nice()
-            .range([height, 0]);
+            .range([height, 40]);
 
         const color = d3
             .scaleOrdinal()
             .domain(['patients', 'devices'])
             .range(['#1E90FF', '#00008B']);
 
-        // Add bars
-        svg
+        const bars = svg
             .append('g')
             .selectAll('g')
             .data(data)
             .enter()
             .append('g')
-            .attr('transform', (d) => `translate(${x0(d.month)},0)`)
+            .attr('transform', (d) => `translate(${x0(d.month)},0)`);
+
+        bars
             .selectAll('rect')
             .data((d) =>
                 ['patients', 'devices'].map((key) => ({ key: key, value: d[key] }))
@@ -83,6 +84,21 @@ const CommonSVG = () => {
             .attr('fill', (d) => color(d.key))
             .attr('class', 'bar');
 
+        // Add text to each bar to display the value inside the bar
+        bars
+            .selectAll('text')
+            .data((d) =>
+                ['patients', 'devices'].map((key) => ({ key: key, value: d[key] }))
+            )
+            .enter()
+            .append('text')
+            .attr('x', (d) => x1(d.key) + x1.bandwidth() / 2) // Center the text horizontally
+            .attr('y', (d) => y(d.value) + 20) // Position it slightly below the top of the bar
+            .attr('text-anchor', 'middle') // Center the text horizontally within the bar
+            .attr('fill', 'white') // Color of the text (white, in case the bars are dark)
+            .attr('font-size', '12px') // Font size
+            .text((d) => d.value); // Display the value of the bar
+
         // Add X axis
         svg
             .append('g')
@@ -92,62 +108,58 @@ const CommonSVG = () => {
         // Add Y axis
         svg.append('g').call(d3.axisLeft(y));
 
-        // Add legends
-        svg
-            .append('rect')
-            .attr('x', width - 160)
-            .attr('y', -margin.top + 30)
-            .attr('width', 18)
-            .attr('height', 18)
-            .attr('fill', '#1E90FF');
-
-        svg
-            .append('text')
-            .attr('x', width - 130)
-            .attr('y', -margin.top + 45)
-            .attr('class', 'legend')
-            .text('TOTAL PATIENT');
-
-        svg
-            .append('rect')
-            .attr('x', width - 160)
-            .attr('y', -margin.top + 60)
-            .attr('width', 18)
-            .attr('height', 18)
-            .attr('fill', '#00008B');
-
-        svg
-            .append('text')
-            .attr('x', width - 130)
-            .attr('y', -margin.top + 75)
-            .attr('class', 'legend')
-            .text('TOTAL DEVICES');
-
         // Add title for "Count" and total labels beside it
         svg
             .append('text')
-            .attr('x', margin.left + 40)
-            .attr('y', -margin.top + 40)
+            .attr('x', -margin.left + 10)
+            .attr('y', -margin.top + 60)
             .attr('class', 'header')
-            .attr('font-size', '20px')
+            .attr('font-size', '6px')
             .text('Count');
 
         // Total Patients and Total Devices next to the "Count" title
         svg
+            .append('rect')
+            .attr('x', -margin.left + 100)
+            .attr('y', -margin.top + 30)
+            .attr('width', 10)
+            .attr('height', 10)
+            .attr('fill', '#00008B');
+        svg
             .append('text')
-            .attr('x', margin.left + 120)
+            .attr('x', -margin.left + 120)
             .attr('y', -margin.top + 40)
             .attr('class', 'count-label')
             .attr('fill', '#00008B')
-            .text('Total Devices: 1240');
-
+            .text('Total Devices');
         svg
             .append('text')
-            .attr('x', margin.left + 120)
+            .attr('x', -margin.left + 120)
+            .attr('y', -margin.top + 70)
+            .attr('class', 'count-label')
+            .attr('fill', '#00008B')
+            .text('1240');
+        svg
+            .append('rect')
+            .attr('x', -margin.left + 250)
+            .attr('y', -margin.top + 30)
+            .attr('width', 10)
+            .attr('height', 10)
+            .attr('fill', '#1E90FF');
+        svg
+            .append('text')
+            .attr('x', -margin.left + 270)
+            .attr('y', -margin.top + 40)
+            .attr('class', 'count-label')
+            .attr('fill', '#1E90FF')
+            .text('Total Patients');
+        svg
+            .append('text')
+            .attr('x', -margin.left + 270)
             .attr('y', -margin.top + 70)
             .attr('class', 'count-label')
             .attr('fill', '#1E90FF')
-            .text('Total Patients: 1500');
+            .text('1500');
 
         // Add time granularity label
         svg
@@ -156,7 +168,7 @@ const CommonSVG = () => {
             .attr('y', -margin.top + 40)
             .attr('class', 'count-label')
             .attr('fill', '#1E90FF')
-            .text(`Selected Time: ${timeGranularity}`);
+            .text(`Selected: ${timeGranularity}`);
 
         // Label for X axis (Months)
         svg
@@ -180,7 +192,6 @@ const CommonSVG = () => {
 
     return (
         <div>
-            {/* Radio buttons for Year, Month, Week */}
             <div>
                 <label>
                     <input
