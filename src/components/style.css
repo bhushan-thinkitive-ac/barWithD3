@@ -1,0 +1,64 @@
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.radio-group label {
+    margin: 0 15px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+}
+
+#chart {
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+
+.legend {
+    font-size: 16px;
+    fill: #333;
+}
+
+.count-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.axis-label {
+    font-size: 14px;
+    fill: #555;
+}
+
+
+.bar {
+    stroke: #fff;
+    stroke-width: 2px;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: #ff6347; 
+}
+
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    fill: #333;
+}
