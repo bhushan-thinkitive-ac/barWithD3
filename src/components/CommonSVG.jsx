@@ -224,13 +224,12 @@ const CommonSVG = () => {
             </div>
             <button
                 style={{
-                    position: 'absolute', // Adjust as needed for positioning
-                    left: `${1300 - 140}px`,  // Corresponding to width - 160
-                    top: `${90 - 34}px`, // Corresponding to -margin.top + 30
+                    position: 'absolute',
+                    left: `${1300 - 140}px`,
+                    top: `${90 - 34}px`,
                     width: '60px',
-                    height: '18px',
-                    backgroundColor: '#179ae6',
-                    border: '1px dotted',
+                    height: '23 px',
+                    border: '3px solid #179ae6',
                     borderRadius: '4px',
                     cursor: 'pointer',
                 }}
