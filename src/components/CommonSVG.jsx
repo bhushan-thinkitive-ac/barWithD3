@@ -227,14 +227,14 @@ const CommonSVG = () => {
                     position: 'absolute',
                     left: `${1300 - 140}px`,
                     top: `${90 - 34}px`,
-                    width: '60px',
-                    height: '23 px',
+                    width: '78px',
+                    height: '29 px',
                     border: '3px solid #179ae6',
                     borderRadius: '4px',
                     cursor: 'pointer',
                 }}
             >
-                Export
+                ⬇️ Export
             </button>
             <svg id="chart"></svg>
         </div>
