@@ -49,7 +49,8 @@ const CommonSVG = () => {
         const x1 = d3
             .scaleBand()
             .domain(['patients', 'devices'])
-            .range([0, x0.bandwidth()]);
+            .range([0, x0.bandwidth()])
+            .padding(0);
 
         const y = d3
             .scaleLinear()
@@ -221,6 +222,21 @@ const CommonSVG = () => {
                     Week
                 </label>
             </div>
+            <button
+                style={{
+                    position: 'absolute', // Adjust as needed for positioning
+                    left: `${1300 - 140}px`,  // Corresponding to width - 160
+                    top: `${90 - 34}px`, // Corresponding to -margin.top + 30
+                    width: '60px',
+                    height: '18px',
+                    backgroundColor: '#179ae6',
+                    border: '1px dotted',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                }}
+            >
+                Export
+            </button>
             <svg id="chart"></svg>
         </div>
     );
